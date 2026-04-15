@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+*.dist-info/
+
+# PlatformIO
+.pio/
+firmware/include/config.h
+
+# Internal planning docs
+docs/
+.claude/
+
+# IDE
+.vscode/
+.idea/
