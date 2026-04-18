@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "embedded-mcp-bridge": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-m", "server.main"],
+      "cwd": "C:/Users/zakri/OneDrive/Documents/embedded-mcp-bridge"
+    }
+  }
+}
