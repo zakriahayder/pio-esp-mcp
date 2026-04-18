@@ -10,9 +10,10 @@ dist/
 .pio/
 firmware/include/config.h
 
-# Internal planning docs
+
 docs/
 .claude/
+CLAUDE.md
 
 # IDE
 .vscode/
