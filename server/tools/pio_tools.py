@@ -122,3 +122,48 @@ def register_pio_tools(mcp: FastMCP) -> None:
         except serial.SerialException as e:
             response = MonitorResult(success=False, output="", error=str(e))
             return response.model_dump()
+
+    @mcp.tool()
+    def pio_serial_command(
+        port: str,
+        command: str,
+        baud: int = 115200,
+        wait_for: str | None = None,
+        timeout: int = 10,
+    ) -> dict:
+        """Send a command over serial and return the device's response.
+
+        If wait_for is provided, lines are collected until that terminator string
+        appears in a line or the timeout is reached. Otherwise, output is collected
+        for a fixed 2-second window. Returns all received lines joined as a single
+        string in the response field.
+        """
+        try:
+            ser = serial.Serial(port=port, baudrate=baud, timeout=1)
+        except serial.SerialException as e:
+            return {
+                "success": False,
+                "response": "",
+                "error": (
+                    f"Could not open port {port!r}: {e}. "
+                    "Run pio_list_devices to check available ports."
+                ),
+            }
+
+        try:
+            ser.reset_input_buffer()
+            ser.write((command + "\n").encode("utf-8"))
+            lines: list[str] = []
+            read_until = time.monotonic() + (timeout if wait_for else 2)
+            while time.monotonic() < read_until:
+                line = ser.readline().decode("utf-8", errors="replace").rstrip()
+                if line:
+                    lines.append(line)
+                    if wait_for and wait_for in line:
+                        break
+                elif not wait_for:
+                    break
+        finally:
+            ser.close()
+
+        return {"success": True, "response": "\n".join(lines), "error": None}
