@@ -8,8 +8,6 @@ dist/
 
 # PlatformIO
 .pio/
-firmware/include/config.h
-
 
 docs/
 .claude/
@@ -18,5 +16,3 @@ CLAUDE.md
 # IDE
 .vscode/
 .idea/
-
-config.h

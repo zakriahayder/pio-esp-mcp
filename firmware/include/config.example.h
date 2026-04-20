@@ -1,4 +1,0 @@
-#pragma once
-
-#define WIFI_SSID     "wifi_ssid"
-#define WIFI_PASSWORD "wifi_password"
